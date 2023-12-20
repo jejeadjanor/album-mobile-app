@@ -2,10 +2,13 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function Movies(props) {
+    
   return (
     <View style={styles.item}>
         <View style={styles.itemLeft}>
-            <TouchableOpacity style={styles.square}></TouchableOpacity>
+            <TouchableOpacity style={styles.square}>
+                <Text>{props.id}</Text>
+            </TouchableOpacity>
             <Text style={styles.itemText}>{props.text}</Text>
         </View>
         <View style={styles.circular}></View>
@@ -35,9 +38,10 @@ const styles = StyleSheet.create({
         opacity: 0.4,
         borderRadius: 5,
         marginRight: 15,
+        alignItems: 'center',
     },
     itemText: {
-        maxWidth: 80
+        maxWidth: 200
     },
     circular: {
         width: 12,
