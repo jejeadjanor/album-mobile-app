@@ -1,5 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native-paper';
+
 
 export default function Movies(props) {
     
@@ -11,7 +13,9 @@ export default function Movies(props) {
             </TouchableOpacity>
             <Text style={styles.itemText}>{props.text}</Text>
         </View>
-        <View style={styles.circular}></View>
+        <Button style={styles.button} icon="eye" mode="contained" onPress={() => console.log('Pressed')}>
+            View
+        </Button>
     </View>
   )
 }
@@ -43,12 +47,8 @@ const styles = StyleSheet.create({
     itemText: {
         maxWidth: 200
     },
-    circular: {
-        width: 12,
-        height: 12,
-        borderColor: '#55BCF6',
-        borderWidth: 2,
-        borderRadius: 5,
-    },
+    button: {
+        backgroundColor: '#55BCF6'
+    }
 })
 

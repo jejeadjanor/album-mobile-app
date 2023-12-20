@@ -1,68 +1,22 @@
-// import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import { KeyboardAvoidingView,TouchachbleOpacity, StyleSheet, Text, View, TextInput} from 'react-native';
-import Albums from './components/Albums';
+import 'react-native-gesture-handler';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './components/Home';
+import DetailsScreen from './components/Details';
+
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [albums, setAlbums] = useState([]);
-
-    useEffect(() => {
-        fetchData();
-    },[])
-
-    const fetchData = async () => {
-        await fetch('https://jsonplaceholder.typicode.com/albums')
-        .then((res) => res.json())
-        .then((data) => setAlbums(data))
-        .catch((err) => {
-            console.log(err);
-        })
-    }
-
-    console.log(albums)
   return (
-    <View style={styles.container}>
-      <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Movie Album</Text>
-      </View>
-      <View style={styles.items}>
-        {
-          albums.map((album) => (
-            <Albums id={album.id} key={album.id} text={album.title}/>
-          ))
-        }
-      </View>
-      {/* <StatusBar style="auto"></StatusBar> */}
-      {/* <KeyboardAvoidingView
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
-    style={styles.writeTaskWrapper}
-    >
-      <TextInput style={styles.input} placeholder={'Write a task'}/>
-      <TouchachbleOpacity>
-        <View style={styles.addWrapper}>
-          <Text style={styles.addText}>+</Text>
-        </View>
-      </TouchachbleOpacity>
-    </KeyboardAvoidingView> */}
-    </View>
-   
+    <NavigationContainer>
+
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E0E0E0'
-  },
-  tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold'
-  },
-  items: {
-    marginTop: 30,
-  },
-});
