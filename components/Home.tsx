@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator,ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import {
-  List,
+  List
 } from 'react-native-paper';
 
 import { getAlbums } from '../service/albumService';
@@ -13,7 +13,7 @@ const HomeScreen = ({ route, navigation }) => {
     useEffect(() => {
 
         const fetchData = async () => {
-            const data = await getAlbums().finally(() => setLoading(false))
+            const data: any = await getAlbums().finally(() => setLoading(false))
             setAlbums(data.data)
             
 

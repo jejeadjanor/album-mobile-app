@@ -15,13 +15,13 @@ import { getAlbumsById, deleteAlbumsById } from '../service/albumService';
 export default function Details({navigation}) {
     const [isLoading, setLoading] = useState(true);
     const route = useRoute();
-    const { albumId } = route.params;
+    const  { albumId }:any  = route.params;
     const [album, setAlbum] = useState([])
 
     useEffect(() => {
 
         const fetchData = async () => {
-            const data = await getAlbumsById(albumId).finally(() => setLoading(false))
+            const data: any = await getAlbumsById(albumId).finally(() => setLoading(false))
             setAlbum(data.data)
         }
         fetchData();
@@ -50,7 +50,6 @@ export default function Details({navigation}) {
                 icon="bucket"
                 onPress={() => {deleteAlbumsById(albumId,al.id)}}
                 style={styles.button}
-                contentStyle={styles.flexReverse}
                 >
                 Delete
                 </Button>
