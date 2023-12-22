@@ -1,67 +1,81 @@
-import React, {useEffect, useState} from 'react';
-import { KeyboardAvoidingView,TouchachbleOpacity, StyleSheet, Text, View, TextInput} from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  Avatar,
+  Button,
+  Card,
+  Chip,
+  IconButton,
+  Paragraph,
+  Text,
+} from 'react-native-paper';
+
+import { getAlbums } from '../service/albumService';
 import Albums from './Albums';
 
-export default function Home() {
-  const [albums, setAlbums] = useState([]);
+const HomeScreen = ({ route, navigation }) => {
+
+    const [albums, setAlbums] = useState([])
 
     useEffect(() => {
-        fetchData();
-    },[])
 
-    const fetchData = async () => {
-        await fetch('https://jsonplaceholder.typicode.com/albums')
-        .then((res) => res.json())
-        .then((data) => setAlbums(data))
-        .catch((err) => {
-            console.log(err);
-        })
+        const fetchData = async () => {
+            const data = await getAlbums()
+            setAlbums(data.data)
+
+        }
+        fetchData();
+
+    }, []);
+
+    const navigateToProduct = (id) => {
+        navigation.navigate('Details', { albumId: id })
     }
 
     console.log(albums)
-  return (
-    <View style={styles.container}>
-      <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Photo Album</Text>
-      </View>
-      <View style={styles.items}>
-        {
-          albums.map((album) => (
-            <Albums id={album.id} key={album.id} text={album.title}/>
-          ))
-        }
-      </View>
-      
-      {/* <KeyboardAvoidingView
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
-    style={styles.writeTaskWrapper}
+    return (
+      <ScrollView
+      style={[styles.container, { backgroundColor: '##E0E0E0' }]}
+      contentContainerStyle={styles.content}
     >
-      <TextInput style={styles.input} placeholder={'Write a task'}/>
-      <TouchachbleOpacity>
-        <View style={styles.addWrapper}>
-          <Text style={styles.addText}>+</Text>
-        </View>
-      </TouchachbleOpacity>
-    </KeyboardAvoidingView> */}
-    </View>
-   
-  );
+      {albums.map((album) => (
+      <Card style={styles.card} key={album.id}>
+        <Card.Title id={album.id} title={album.title}/>
+        <Card.Content>
+            <Button
+              icon="eye"
+              onPress={() => {}}
+              style={styles.button}
+              contentStyle={styles.flexReverse}
+            >
+              View Details
+            </Button>
+        </Card.Content>
+      </Card>
+      ))}
+    </ScrollView>
+    )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E0E0E0'
   },
-  tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
+  content: {
+    padding: 4,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold'
+  card: {
+    margin: 4,
   },
-  items: {
-    marginTop: 30,
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 12,
+    alignItems: 'center',
   },
-});
+  button: {
+    margin: 4,
+  },
+})
+
+export default HomeScreen;

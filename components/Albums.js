@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 
 
-export default function Movies(props) {
+export default function Albums({props,navigation}) {
     
   return (
     <View style={styles.item}>
@@ -13,7 +13,10 @@ export default function Movies(props) {
             </TouchableOpacity>
             <Text style={styles.itemText}>{props.text}</Text>
         </View>
-        <Button style={styles.button} icon="eye" mode="contained" onPress={() => console.log('Pressed')}>
+        <Button style={styles.button} icon="eye" mode="contained" 
+        onPress={() => 
+            navigation.navigate('Details', {albumId: props.id})}
+        >
             View
         </Button>
     </View>
