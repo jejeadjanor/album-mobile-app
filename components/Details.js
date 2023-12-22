@@ -8,7 +8,7 @@ Text,
 } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 
-import { getAlbumsById } from '../service/albumService';
+import { getAlbumsById, deleteAlbumsById } from '../service/albumService';
 
 const numColumns = 2;
 
@@ -46,7 +46,7 @@ export default function Details({navigation}) {
             <Card.Content>
                 <Button
                 icon="bucket"
-                onPress={() => {}}
+                onPress={() => {deleteAlbumsById(albumId,al.id)}}
                 style={styles.button}
                 contentStyle={styles.flexReverse}
                 >

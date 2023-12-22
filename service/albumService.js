@@ -24,4 +24,16 @@ const getAlbumsById = async (id) => {
     });
 }
 
-export { getAlbums, getAlbumsById }
+const deleteAlbumsById = async (id,photoId) => {
+    return new Promise((resolve, reject) =>{
+        axios.delete(baseUrl + '/albums/' + id + '/photos' + photoId)
+        .then((res) => {
+            console.log(res.data)
+            Alert.alert('Success!', 'Photo deleted!');
+            resolve(res)
+        })
+        .catch((err) => reject(err));
+    });
+}
+
+export { getAlbums, getAlbumsById, deleteAlbumsById }

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, ScrollView, StyleSheet } from 'react-native';
+import { Alert, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import {
   Button,
   Card,
+  List,
 } from 'react-native-paper';
 
 import { getAlbums } from '../service/albumService';
@@ -22,7 +23,7 @@ const HomeScreen = ({ route, navigation }) => {
 
     }, []);
 
-    const navigateToProduct = (id) => {
+    const navigateToPhotos = (id) => {
         navigation.navigate('Details', { albumId: id })
     }
 
@@ -33,19 +34,10 @@ const HomeScreen = ({ route, navigation }) => {
       contentContainerStyle={styles.content}
     >
       {albums.map((album) => (
-      <Card style={styles.card} key={album.id}>
-        <Card.Title id={album.id} title={album.title}/>
-        <Card.Content>
-            <Button
-              icon="eye"
-              onPress={() => {navigateToProduct(album.id)}}
-              style={styles.button}
-              contentStyle={styles.flexReverse}
-            >
-              View Details
-            </Button>
-        </Card.Content>
-      </Card>
+      <TouchableOpacity key={album.id} onPress={() => navigateToPhotos(album.id)}>
+          <List.Item key={album.id} title={album.title} style={styles.card}
+          />
+      </TouchableOpacity> 
       ))}
     </ScrollView>
     )
@@ -62,6 +54,8 @@ const styles = StyleSheet.create({
     margin: 4,
     fontFamily: 'Roboto',
     fontWeight: 'bold',
+    backgroundColor: '#fff',
+    borderRadius: 10,
   },
   button: {
     margin: 4,
