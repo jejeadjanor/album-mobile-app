@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet } from 'react-native';
 import {
-  Avatar,
   Button,
   Card,
-  Chip,
-  IconButton,
-  Paragraph,
-  Text,
 } from 'react-native-paper';
 
 import { getAlbums } from '../service/albumService';
-import Albums from './Albums';
 
 const HomeScreen = ({ route, navigation }) => {
 
@@ -35,7 +29,7 @@ const HomeScreen = ({ route, navigation }) => {
     console.log(albums)
     return (
       <ScrollView
-      style={[styles.container, { backgroundColor: '##E0E0E0' }]}
+      style={[styles.container, { backgroundColor: '#E0E0E0' }]}
       contentContainerStyle={styles.content}
     >
       {albums.map((album) => (
@@ -44,7 +38,7 @@ const HomeScreen = ({ route, navigation }) => {
         <Card.Content>
             <Button
               icon="eye"
-              onPress={() => {}}
+              onPress={() => {navigateToProduct(album.id)}}
               style={styles.button}
               contentStyle={styles.flexReverse}
             >
@@ -66,12 +60,8 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 4,
-  },
-  row: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 12,
-    alignItems: 'center',
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
   },
   button: {
     margin: 4,

@@ -1,27 +1,33 @@
-import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,
-     ActivityIndicator, ScrollView } from 'react-native';
+import { StyleSheet, View, TouchableOpacity,
+      ScrollView } from 'react-native';
+import {
+Button,
+Card,
+Text,
+} from 'react-native-paper';
+import { useRoute } from '@react-navigation/native';
 
-export default function Details({route, navigation}) {
-    const [dataLoading, finishLoading] = useState(true);
-    const [allAlbumData, setAllAlbumData] = useState([]);
-    const {albumId} = route.params;
-    const selectedAlbum = allAlbumData.find(album => album.id === id);
+import { getAlbumsById } from '../service/albumService';
+
+const numColumns = 2;
+
+export default function Details({navigation}) {
+    const route = useRoute();
+    const { albumId } = route.params;
+    const [album, setAlbum] = useState([])
 
     useEffect(() => {
-        fetchAlbumDetails();
-    },[])
 
-    const fetchAlbumDetails = async () => {
-        await axios.get(`https://jsonplaceholder.typicode.com/albums/${id}`)
-        .then((res) => res.json())
-        .then((data) => setAllAlbumData(data))
-        .catch((err) => {
-            console.log(err);
-        })
-        .finally(() => finishLoading(false))
-    }
+        const fetchData = async () => {
+            const data = await getAlbumsById(albumId)
+            setAlbum(data.data)
+        }
+        fetchData();
+
+    }, []);
+
+    console.log(album)
   return (
     <View>
         <TouchableOpacity
@@ -30,27 +36,42 @@ export default function Details({route, navigation}) {
         >
             <Text style = {styles.buttontext}>Go Back</Text>
         </TouchableOpacity>
-        {dataLoading ? <ActivityIndicator/> : (
-            <ScrollView>
-                <Text>{selectedAlbum.id}</Text>
-            </ScrollView>
-        )}
+
+    <ScrollView
+    >
+      {album.map((al) => (
+        <Card style={styles.card} key={al.id}>
+            {/* <Card.Title id={al.id} title={al.title}/> */}
+            <Card.Cover source={{ uri: al.url }}/>
+            <Card.Content>
+                <Button
+                icon="bucket"
+                onPress={() => {}}
+                style={styles.button}
+                contentStyle={styles.flexReverse}
+                >
+                Delete
+                </Button>
+            </Card.Content>
+        </Card>
+        ))}
+    </ScrollView>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#fff',
-        alignItems: 'center',
+    card : {
+        margin: 4,
+        // maxWidth: '40%',
     },
     button: {
         padding: 20,
-        alignItems: 'flex-start',
+        alignItems: 'center',
         justifyContent: 'center',
     },
     buttontext: {
-        fontFamily: 'OpenSans',
+        fontFamily: 'Roboto',
         fontWeight: 'bold'
     }
 });

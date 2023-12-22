@@ -13,9 +13,9 @@ const getAlbums = async () => {
     });
 };
 
-const getAlbumsById = async () => {
+const getAlbumsById = async (id) => {
     return new Promise((resolve, reject) =>{
-        axios.get(baseUrl + '/albums/' + id)
+        axios.get(baseUrl + '/albums/' + id + '/photos')
         .then((res) => {
             console.log(res.data)
             resolve(res)
