@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, View, TouchableOpacity,
+import { ActivityIndicator, StyleSheet, View, TouchableOpacity,
       ScrollView } from 'react-native';
 import {
 Button,
@@ -10,9 +10,10 @@ import { useRoute } from '@react-navigation/native';
 
 import { getAlbumsById, deleteAlbumsById } from '../service/albumService';
 
-const numColumns = 2;
+// const numColumns = 2;
 
 export default function Details({navigation}) {
+    const [isLoading, setLoading] = useState(true);
     const route = useRoute();
     const { albumId } = route.params;
     const [album, setAlbum] = useState([])
@@ -20,7 +21,7 @@ export default function Details({navigation}) {
     useEffect(() => {
 
         const fetchData = async () => {
-            const data = await getAlbumsById(albumId)
+            const data = await getAlbumsById(albumId).finally(() => setLoading(false))
             setAlbum(data.data)
         }
         fetchData();
@@ -39,7 +40,8 @@ export default function Details({navigation}) {
 
     <ScrollView
     >
-      {album.map((al) => (
+    {isLoading ? <ActivityIndicator size='large'/> : (
+      album.map((al) => (
         <Card style={styles.card} key={al.id}>
             {/* <Card.Title id={al.id} title={al.title}/> */}
             <Card.Cover source={{ uri: al.url }}/>
@@ -54,7 +56,7 @@ export default function Details({navigation}) {
                 </Button>
             </Card.Content>
         </Card>
-        ))}
+        )))}
     </ScrollView>
     </View>
   )
@@ -63,7 +65,6 @@ export default function Details({navigation}) {
 const styles = StyleSheet.create({
     card : {
         margin: 4,
-        // maxWidth: '40%',
     },
     button: {
         padding: 20,

@@ -1,6 +1,9 @@
 import axios from "axios";
+import { useState } from 'react'
+import { Alert} from 'react-native';
 
 const baseUrl = 'https://jsonplaceholder.typicode.com'
+
 
 const getAlbums = async () => {
     return new Promise((resolve, reject) =>{
@@ -32,7 +35,10 @@ const deleteAlbumsById = async (id,photoId) => {
             Alert.alert('Success!', 'Photo deleted!');
             resolve(res)
         })
-        .catch((err) => reject(err));
+        .catch((err) =>
+        {Alert.alert('Unauthorized!', 'Photo not deleted!'); 
+        reject(err)
+    });
     });
 }
 

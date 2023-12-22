@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { ActivityIndicator,ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import {
-  Button,
-  Card,
   List,
 } from 'react-native-paper';
 
 import { getAlbums } from '../service/albumService';
 
 const HomeScreen = ({ route, navigation }) => {
-
+    const [isLoading, setLoading] = useState(true);
     const [albums, setAlbums] = useState([])
 
     useEffect(() => {
 
         const fetchData = async () => {
-            const data = await getAlbums()
+            const data = await getAlbums().finally(() => setLoading(false))
             setAlbums(data.data)
+            
 
         }
         fetchData();
@@ -33,12 +32,13 @@ const HomeScreen = ({ route, navigation }) => {
       style={[styles.container, { backgroundColor: '#E0E0E0' }]}
       contentContainerStyle={styles.content}
     >
-      {albums.map((album) => (
+      {isLoading ? <ActivityIndicator size='large'/> : (
+      albums.map((album) => (
       <TouchableOpacity key={album.id} onPress={() => navigateToPhotos(album.id)}>
           <List.Item key={album.id} title={album.title} style={styles.card}
           />
       </TouchableOpacity> 
-      ))}
+      )))}
     </ScrollView>
     )
 }
